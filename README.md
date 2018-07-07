@@ -1,2 +1,2 @@
 # gallagherbot
-work in progress
+work in progress - still in testing
