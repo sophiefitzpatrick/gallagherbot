@@ -1,6 +1,5 @@
 # before I began I $ pip install virtualenv and $ pip install slackclient
 
-
 # importing dependancies from slackclient
 import os
 import time
@@ -13,12 +12,20 @@ slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
 # gallagherbot's user ID in Slack: the value is assigned after the bot starts up
 gallagherbot_id = None
 
+
+# method - passing the username and profile picture in the code payload
+slack_client.api_call(
+        "chat.postMessage",
+        icon_url = 'liam.jpg',
+        username = 'gallagherbot',
+        as_user = False
+)
+
+
 # some constants
 RTM_READ_DELAY = 1 # 1 second delay between reading from RTM
 EXAMPLE_COMMAND = "hello" # slack command that will prompt gallagherbot
 MENTION_REGEX = "^<@(|[WU].+?)>(.*)"
-
-
 
 
 
