@@ -14,10 +14,13 @@ gallagherbot_id = None
 
 
 # method - passing the username and profile picture in the code payload
-slack_client.api_call(
+bot_credentials = slack_client.api_call(
         "chat.postMessage",
+        channel = '#general',
+        token = 'SLACK_BOT_TOKEN',
+        text = 'hello',
         icon_url = 'liam.jpg',
-        username = 'gallagherbot',
+        username = 'Liam Gallagher',
         as_user = False
 )
 
@@ -40,12 +43,12 @@ def parse_bot_commands(slack_events):
     
     for event in slack_events:
 
-    	# 'type' and 'subtype' are Object Types found in Slack's API. The commands we want to find, have no subtype.
+        # 'type' and 'subtype' are Object Types found in Slack's API. The commands we want to find, have no subtype.
         if event["type"] == "message" and not "subtype" in event:
 
-        	# once we know the event contains a message, we call the 'parse_direct_mention' function to determine 
-        	# whether the mention matches the @gallagherbot's user id we stored earlier
-        	# if this matches up, we return the command text with the Slack channel id
+            # once we know the event contains a message, we call the 'parse_direct_mention' function to determine 
+            # whether the mention matches the @gallagherbot's user id we stored earlier
+            # if this matches up, we return the command text with the Slack channel id
             user_id, message = parse_direct_mention(event["text"])
             if user_id == gallagherbot_id:
                 return message, event["channel"]
@@ -83,7 +86,7 @@ def handle_command(command, channel):
 
     # the commands
     if command.startswith(EXAMPLE_COMMAND):
-        response = "hi i'm liam"
+        response = "Hi i'm Liam, as you were"
 
     if command.startswith("chris martin"):
         response = "I don`t hate Chris Martin. I don`t know him, know what I mean? I just thinks he`s a bit giddy. He ought to calm down, he isn`t gonna save the world"
@@ -136,6 +139,9 @@ def handle_command(command, channel):
     if command.startswith("george harrison"):
         response = "I still love George Harrison as a songwriter in the Beatles, but as a person I think he’s a f**king nipple"
 
+    if command.startswith("sophie"):
+        response = "Right shite talker"
+
     if command.startswith("gardens"):
         response = "I much prefer it be f**king paved. The minute I get some money in the bank there’ll be f**king concrete going over it"
 
@@ -171,8 +177,8 @@ def handle_command(command, channel):
 
 if __name__ == "__main__":
 
-	# connecting the Slack Client to Slack RTM (real time messenger) API, this calls the 'auth.test' web API method 
-	# which checks the authentication & identity of the bot. If this passes we should see "gallagherbot, as you were" as output
+    # connecting the Slack Client to Slack RTM (real time messenger) API, this calls the 'auth.test' web API method 
+    # which checks the authentication & identity of the bot. If this passes we should see "gallagherbot, as you were" as output
 
     if slack_client.rtm_connect(with_team_state=False):
         print("gallagherbot, as you were")
