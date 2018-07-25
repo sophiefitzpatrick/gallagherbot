@@ -13,18 +13,6 @@ slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
 gallagherbot_id = None
 
 
-# method - passing the username and profile picture in the code payload
-bot_credentials = slack_client.api_call(
-        "chat.postMessage",
-        channel = '#general',
-        token = 'SLACK_BOT_TOKEN',
-        text = 'hello',
-        icon_url = 'liam.jpg',
-        username = 'Liam Gallagher',
-        as_user = False
-)
-
-
 # some constants
 RTM_READ_DELAY = 1 # 1 second delay between reading from RTM
 EXAMPLE_COMMAND = "hello" # slack command that will prompt gallagherbot
@@ -168,7 +156,10 @@ def handle_command(command, channel):
     slack_client.api_call(
         "chat.postMessage",
         channel=channel,
-        text=response or default_response
+        text=response or default_response,
+        icon_url = 'https://i.imgur.com/P3rfqP2.jpg',
+        username = 'Liam Gallagher',
+        as_user = False
     )
 
 
