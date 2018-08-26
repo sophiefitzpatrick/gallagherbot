@@ -7,7 +7,7 @@ import re
 from slackclient import SlackClient
 
 # instantiate the slack client using the bot oAuth token saved as a variable
-slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
+slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN1'))
 
 # gallagherbot's user ID in Slack: the value is assigned after the bot starts up
 gallagherbot_id = None
@@ -18,6 +18,17 @@ RTM_READ_DELAY = 1 # 1 second delay between reading from RTM
 EXAMPLE_COMMAND = "hello" # slack command that will prompt gallagherbot
 MENTION_REGEX = "^<@(|[WU].+?)>(.*)"
 
+# responses = {
+#     "charlotte church": "What a bitch",
+#     "rick ross": "What a bitch",
+# }
+
+# incoming_msg = 'sean is knebworth'
+# keywords = responses.keys()
+
+# for every keyword:
+#     if keyword in incoming_msg:
+#         send_message(response[keyword])
 
 
 # -------- function 1 (listens for commands) -----------
@@ -128,7 +139,7 @@ def handle_command(command, channel):
         response = "I still love George Harrison as a songwriter in the Beatles, but as a person I think he’s a f**king nipple"
 
     if command.startswith("sophie"):
-        response = "Right shite talker"
+        response = "valid source of truth"
 
     if command.startswith("gardens"):
         response = "I much prefer it be f**king paved. The minute I get some money in the bank there’ll be f**king concrete going over it"
