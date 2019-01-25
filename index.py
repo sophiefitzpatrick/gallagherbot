@@ -1,21 +1,19 @@
-# before I began I $ pip install virtualenv and $ pip install slackclient
-
-# importing dependancies from slackclient
+# dependencies
 import os
 import time
 import re
 from slackclient import SlackClient
 
-# instantiate the slack client using the bot oAuth token saved as a variable
-slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN1'))
+# oAuth
+slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
 
 # gallagherbot's user ID in Slack: the value is assigned after the bot starts up
 gallagherbot_id = None
 
 
-# some constants
+# constants
 RTM_READ_DELAY = 1 # 1 second delay between reading from RTM
-EXAMPLE_COMMAND = "hello" # slack command that will prompt gallagherbot
+EXAMPLE_COMMAND = "liam" # slack command that will prompt gallagherbot
 MENTION_REGEX = "^<@(|[WU].+?)>(.*)"
 
 # -------- function 1 (listens for commands) -----------
@@ -72,7 +70,13 @@ def handle_command(command, channel):
 
     # the commands
     if command.startswith(EXAMPLE_COMMAND):
-        response = "Hi i'm Liam, as you were"
+        response = "as you were"
+
+    if command.startswith("rockstars"):
+        response = "Name one rock star in Britain apart from a member of Oasis. Name one!"
+
+    if command.startswith("bank holidays"):
+        response = "We don’t observe bank holidays in this band. It’s all one big bank holiday, one big fucking day off."
 
     if command.startswith("chris martin"):
         response = "I don`t hate Chris Martin. I don`t know him, know what I mean? I just thinks he`s a bit giddy. He ought to calm down, he isn`t gonna save the world"
@@ -114,7 +118,7 @@ def handle_command(command, channel):
         response = "I’m moving back to Manchester if City win the league. I’m going to buy a house next to Mani out of Stone Roses and be a real noisy neighbour – hurl abuse at him over the fence"
 
     if command.startswith("gary neville"):
-        response = "if the world was full of f**king Gary Nevilles, it would be bobbins. He looks like an estate agent"
+        response = "If the world was full of f**king Gary Nevilles, it would be bobbins. He looks like an estate agent"
 
     if command.startswith("bono"):
         response = "You see pictures of Bono running around LA with his little white legs and a bottle of Volvic"
@@ -124,9 +128,6 @@ def handle_command(command, channel):
 
     if command.startswith("george harrison"):
         response = "I still love George Harrison as a songwriter in the Beatles, but as a person I think he’s a f**king nipple"
-
-    if command.startswith("sophie"):
-        response = "valid source of truth"
 
     if command.startswith("gardens"):
         response = "I much prefer it be f**king paved. The minute I get some money in the bank there’ll be f**king concrete going over it"
@@ -189,7 +190,6 @@ if __name__ == "__main__":
 
             if command:
                 handle_command(command, channel)
-                parse_bot_message(slack_events)
             time.sleep(RTM_READ_DELAY)
     else:
         print("Connection failed. Exception traceback printed above.")
