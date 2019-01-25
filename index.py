@@ -18,29 +18,6 @@ RTM_READ_DELAY = 1 # 1 second delay between reading from RTM
 EXAMPLE_COMMAND = "hello" # slack command that will prompt gallagherbot
 MENTION_REGEX = "^<@(|[WU].+?)>(.*)"
 
-# How I might handle a smarter gallagherbot, that is capable of detecting 
-# keywords within a message which in turn activates the bot
-
-
-def parse_bot_message(message_text):
-    
-    responses = {  
-     "sophie" : "that is me",
-     "aisling" : "bambi",
- }
-
-    keywords = responses.keys()
-
-
-
-    incoming_msg == keywords
-
-    for keyword in keywords:
-        if keyword in incoming_msg:
-            send_message(response[value])
-
-
-
 # -------- function 1 (listens for commands) -----------
 
 def parse_bot_commands(slack_events):
