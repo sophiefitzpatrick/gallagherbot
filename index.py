@@ -68,6 +68,7 @@ def handle_command(command, channel):
     # finds and executes the given command, filling in response
     response = None
 
+
     # the commands
     if command.startswith(EXAMPLE_COMMAND):
         response = "as you were"
