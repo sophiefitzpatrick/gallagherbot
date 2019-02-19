@@ -8,8 +8,7 @@ from slackclient import SlackClient
 slack_client = SlackClient(os.environ.get('SLACK_BOT_TOKEN'))
 
 # gallagherbot's user ID in Slack: the value is assigned after the bot starts up
-gallagherbot_id = None
-
+gallagherbot_id = slack_client.api_call("auth.test")["user_id"]
 
 # constants
 RTM_READ_DELAY = 1 # 1 second delay between reading from RTM
@@ -28,12 +27,13 @@ def parse_bot_commands(slack_events):
     for event in slack_events:
 
         # 'type' and 'subtype' are Object Types found in Slack's API. The commands we want to find, have no subtype.
-        if event["type"] == "message" and not "subtype" in event:
+        if (event["type"] == "message" or event["type"] == "app_mention") and not "subtype" in event:
 
             # once we know the event contains a message, we call the 'parse_direct_mention' function to determine 
             # whether the mention matches the @gallagherbot's user id we stored earlier
             # if this matches up, we return the command text with the Slack channel id
             user_id, message = parse_direct_mention(event["text"])
+            print(user_id, gallagherbot_id, message)
             if user_id == gallagherbot_id:
                 return message, event["channel"]
     return None, None
@@ -168,31 +168,34 @@ def handle_command(command, channel):
 
 if __name__ == "__main__":
 
-    # connecting the Slack Client to Slack RTM (real time messenger) API, this calls the 'auth.test' web API method 
-    # which checks the authentication & identity of the bot. If this passes we should see "gallagherbot, as you were" as output
+    # # connecting the Slack Client to Slack RTM (real time messenger) API, this calls the 'auth.test' web API method 
+    # # which checks the authentication & identity of the bot. If this passes we should see "gallagherbot, as you were" as output
 
-    if slack_client.rtm_connect(with_team_state=False):
-        print("gallagherbot, as you were")
+    # if slack_client.rtm_connect(with_team_state=False):
+    #     print("gallagherbot, as you were")
 
-        # reads gallagherbot's user ID by calling the Web API method `auth.test`. 
-        # this should help the program recognise when gallaherbot has been mentioned in a message 
+    #     # reads gallagherbot's user ID by calling the Web API method `auth.test`. 
+    #     # this should help the program recognise when gallaherbot has been mentioned in a message 
 
-        gallagherbot_id = slack_client.api_call("auth.test")["user_id"]
+    #     if not gallagherbot_id:
+    #         gallagherbot_id = slack_client.api_call("auth.test")["user_id"]
 
-        # each time the while loop runs the Slack Client recieves any events that have arrived from Slack's RTM API. 
-        # before the loop ends, the program pauses for one second so as not to waste CPU time.
-        # parse_bot_commands() listens for events relevant to gallagherbot for example specified commands
+    #     # each time the while loop runs the Slack Client recieves any events that have arrived from Slack's RTM API. 
+    #     # before the loop ends, the program pauses for one second so as not to waste CPU time.
+    #     # parse_bot_commands() listens for events relevant to gallagherbot for example specified commands
 
-        while True:
-            command, channel = parse_bot_commands(slack_client.rtm_read())
+    #     while True:
+    #         command, channel = parse_bot_commands(slack_client.rtm_read())
 
-            # if a command is heard by parse, then 'command' will contain a value and the 
-            # 'handle_command()' function will determine what to do with the command
+    #         # if a command is heard by parse, then 'command' will contain a value and the 
+    #         # 'handle_command()' function will determine what to do with the command
 
-            if command:
-                handle_command(command, channel)
-            time.sleep(RTM_READ_DELAY)
-    else:
-        print("Connection failed. Exception traceback printed above.")
+    #         if command:
+    #             handle_command(command, channel)
+    #         time.sleep(RTM_READ_DELAY)
+    # else:
+    #     print("Connection failed. Exception traceback printed above.")
 
-
+    events = [{'client_msg_id': '3e500db0-f0c7-47e2-a12c-6737be41947e', 'type': 'app_mention', 'text': '<@UBMEXEPU7> hair', 'user': 'UBKRYHC8H', 'ts': '1550521214.004000', 'channel': 'CFQAA81A6', 'event_ts': '1550521214.004000'}]
+    result = parse_bot_commands(events)
+    import ipdb; ipdb.set_trace()

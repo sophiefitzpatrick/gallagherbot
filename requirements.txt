@@ -1,0 +1,14 @@
+certifi==2018.8.24
+chardet==3.0.4
+Click==7.0
+Flask==1.0.2
+idna==2.7
+itsdangerous==1.1.0
+Jinja2==2.10
+MarkupSafe==1.1.0
+requests==2.19.1
+six==1.11.0
+slackclient==1.2.1
+urllib3==1.23
+websocket-client==0.47.0
+Werkzeug==0.14.1

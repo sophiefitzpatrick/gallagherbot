@@ -34,4 +34,3 @@ At the moment the bot is only local to my sandbox Slack environment, but I'd lik
 Other ideas:
 - have Gallagherbot able to jump in at a keyword, rather than only at a @mention.
 - have a Noelbot, that can converse with Liam. Noel is just as comical as Liam.
-
